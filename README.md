@@ -1,0 +1,1 @@
+Octave code to run grab data from different oscilloscopes from the company SIGLENT. Only tested on the SDS2354X Plus; should support a wide range of models. 
