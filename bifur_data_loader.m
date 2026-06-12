@@ -5,19 +5,30 @@ function bifur_data_loader(path, feedback)
   path = [path, "/"];
   filename = [path, "fb_", num2str(feedback), ".mat"];
 
-  t0 = vxi11("10.42.0.207");
+  t0 = vxi11("10.42.0.207"); % Static ip adress given to red pitaya by my laptop
   scope.write = @(command) vxi11_write(t0, command);
   scope.read  = @(data_length) vxi11_read(t0, data_length);
   scope.close = @() vxi11_close(t0);
 
-  scope.write("STOP");
-  pause( 1 );
+  resp = query(scope, ":ACQuire:STATE?");
+  if(resp(1)=='1')
+    running = true;
+    scope.write([":ACQuire:STATE OFF"]);
+    pause( 1 );
+  elseif(resp(1)=='0')
+    running = false;
+  else
+    disp([":ACQuire:STATE? gave unexpected response: ", resp]);
+    return;
+  end
 
   scope.write( ":WAVeform:SOURce C2" );                           # Set source
   data.rp_in.params = request_params(scope);                      # Get params
   data.rp_in.binary = request_binary(scope, data.rp_in.params);   # Get data
 
-  scope.write("TRMD AUTO");
+  if(running)
+    scope.write([":ACQuire:STATE ON"]);
+  end
   scope.close() # Close connection
 
   data.description = current_data_set( feedback );
@@ -27,8 +38,8 @@ function bifur_data_loader(path, feedback)
 
   if( !exist(path, 'dir') )
     mkdir(path)
-  endif
+  end
   save("-mat-binary", filename, "data") # Save data
 
   display("done");
-endfunction
+end
