@@ -67,10 +67,10 @@ function params = request_params(scope)
   end
 
 
-  params.v_gain_no_probe        = typecast (uint8 (data(157:160)), "double"); % The vertical scale of the data (voltage) without considering the probe factor
-  params.v_offset_no_probe      = typecast (uint8 (data(161:164)), "double"); % The vertical offset of the data (voltage)
-  params.v_code_per_div         = typecast (uint8 (data(165:168)), "double"); % The data is in bytes (0 to 255) and there are 8 divs. So naively a byte value of 256/8=32 should mean a voltage of v_div_ However, the data actually covers a bit more than the display. Thus we dont have to devide the byte data by 32, but by the value gotten in this query.
-  params.probe_attenuation      = typecast (uint8 (data(329:332)), "double"); % The factor given by the probe used. Typically this is 10 as we use 10x probes.
+  params.v_gain_no_probe        = double(typecast (uint8 (data(157:160)), "single")); % The vertical scale of the data (voltage) without considering the probe factor
+  params.v_offset_no_probe      = double(typecast (uint8 (data(161:164)), "single")); % The vertical offset of the data (voltage)
+  params.v_code_per_div         = double(typecast (uint8 (data(165:168)), "single")); % The data is in bytes (0 to 255) and there are 8 divs. So naively a byte value of 256/8=32 should mean a voltage of v_div_ However, the data actually covers a bit more than the display. Thus we dont have to devide the byte data by 32, but by the value gotten in this query.
+  params.probe_attenuation      = double(typecast (uint8 (data(329:332)), "single")); % The factor given by the probe used. Typically this is 10 as we use 10x probes.
   params.v_div    = params.v_gain_no_probe * params.probe_attenuation;    % The vDiv selected on the scope
   params.v_scale  = params.v_div / params.v_code_per_div;                 % The factor the byte data has to be multiplied with to get the voltage. (Multiply before adding the v_offset)
   params.v_offset = -params.v_offset_no_probe * params.probe_attenuation; % This offset must be added to the voltage to account for the zero value.
@@ -79,7 +79,7 @@ function params = request_params(scope)
   params.v_coupling = {'DC', 'AC', 'GND'}{ 1 + typecast( data(327:328), 'int16' ) }; % The coupling used for the probe.
   params.adc_bit                = typecast( data(173:174), 'int16' ); % The encoding of the data. It can be set to 8 bit or 10 bit_ (10 bit might not be implemented yet)
 
-  params.t_interval                = typecast (uint8 (data(177:180)), "double"); % Two data points have this value in seconds as time difference.
+  params.t_interval                = double(typecast (uint8 (data(177:180)), "single")); % Two data points have this value in seconds as time difference.
   params.t_scale = params.t_interval;
   params.sampling_rate = 1 / params.t_scale;
   params.t_user_offset          = typecast (uint8 (data(181:188)), "double"); % The horizontal (time) offset in seconds.
