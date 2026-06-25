@@ -1,7 +1,7 @@
-function real_params = current_data_set(feedback)
+function real_params = current_data_set()
 
   real_params.text = "";
-  real_params.feedback = feedback;
+  real_params.feedback = 1.4;
   %real_params.ufeedback = 0.006;
   real_params.delay = 10e-3;
   %real_params.udelay = 162e-9;

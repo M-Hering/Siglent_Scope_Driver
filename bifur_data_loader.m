@@ -31,8 +31,9 @@ function bifur_data_loader(path, feedback)
   end
   scope.close() # Close connection
 
-  data.description = current_data_set( feedback );
-
+  data.description = current_data_set();
+  data.description.feedback = feedback;
+  
   sqr = @(x)x.*x;
   display(["<V^2> = ", num2str(sqrt(mean(sqr(data2volt(data.rp_in))))) ]);
 
