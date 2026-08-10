@@ -1,11 +1,18 @@
-function data_loader(path, filename)
+function data_loader(path, filename, scope_ip)
   pkg load instrument-control;
   addpath(genpath('./..'))
+  if ~exist("scope_ip", "var") || isempty(scope_ip)
+    scope_ip="10.42.0.207";
+  end
 
   path = [path, "/"];
   total_filename = [path, filename, ".mat"];
+  if isfile(total_filename)
+    error('The file "%s" already exists.', total_filename);
+  end
 
-  t0 = vxi11("10.42.0.207"); % Static ip adress given to red pitaya by my laptop
+  disp(scope_ip);
+  t0 = vxi11(scope_ip);
   scope.write = @(command) vxi11_write(t0, command);
   scope.read  = @(data_length) vxi11_read(t0, data_length);
   scope.close = @() vxi11_close(t0);

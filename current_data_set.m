@@ -3,13 +3,14 @@ function real_params = current_data_set()
   real_params.text = "";
   real_params.feedback = 1.4;
   %real_params.ufeedback = 0.006;
+  %disp("Warning: current_data_set contains unusual delay.")
   real_params.delay = 3e-3;
   %real_params.udelay = 162e-9;
   real_params.R1  = 508;
   %real_params.uR1 = 0.02;
-  real_params.C2  = 60e-9; %77.85e-9;
+  real_params.C2  = 99e-9; %60e-9; %77.85e-9;
   %real_params.uC2 = 0.03;
-  real_params.R3  = 7.89e3; %6700;
+  real_params.R3  = 4600; %7.89e3; %6700;
   %real_params.uR3 = 0.03;
   real_params.R4  = 508;
   %real_params.uR4 = 0.02;
