@@ -6,7 +6,7 @@ function data_loader(path, filename, scope_ip)
   end
 
   path = [path, "/"];
-  total_filename = [path, filename, ".mat"];
+  total_filename = get_unique_filename([path, filename, ".mat"]);
   if isfile(total_filename)
     error('The file "%s" already exists.', total_filename);
   end
