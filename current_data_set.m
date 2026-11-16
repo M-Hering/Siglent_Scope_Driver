@@ -4,7 +4,7 @@ function real_params = current_data_set()
   real_params.feedback = nan;
   %real_params.ufeedback = 0.006;
   %disp("Warning: current_data_set contains unusual delay.")
-  real_params.delay = 40e-3;
+  real_params.delay = 1e-3;
   %real_params.udelay = 162e-9;
   real_params.R1  = 508;
   %real_params.uR1 = 0.02;
